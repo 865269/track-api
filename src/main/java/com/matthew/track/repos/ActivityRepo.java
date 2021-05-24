@@ -8,8 +8,6 @@ import com.matthew.track.models.Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ActivityRepo extends JpaRepository<Activity, Long> {
-
-    List<Activity> findAllByuserId(Long userId);
-
+    
     Optional<Activity> findActivityById(Long id);
 }
