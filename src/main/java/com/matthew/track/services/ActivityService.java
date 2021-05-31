@@ -19,7 +19,7 @@ public class ActivityService {
         this.activityRepo = activityRepo;
     }
 
-    public Activity addActivity(Activity activity) {
+    public Activity saveActivity(Activity activity) {
         return activityRepo.save(activity);
     }
 
