@@ -3,6 +3,9 @@ package com.matthew.track.services;
 import com.matthew.track.FileStorageProperties;
 import com.matthew.track.exceptions.FileStorageException;
 import com.matthew.track.exceptions.MyFileNotFoundException;
+import com.matthew.track.models.Activity;
+import com.matthew.track.models.UploadedFile;
+import com.matthew.track.repos.FileRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -28,7 +31,12 @@ public class FileStorageService {
     private final Path fileStorageLocation;
 
     @Autowired
-    public FileStorageService(FileStorageProperties fileStorageProperties) {
+    private final FileRepo fileRepo;
+
+    @Autowired
+    public FileStorageService(FileStorageProperties fileStorageProperties, FileRepo fileRepo) {
+
+        this.fileRepo = fileRepo;
 
         String contextPath = Paths.get("").toAbsolutePath().normalize().toString();
         this.fileStorageLocation = Paths.get(contextPath + fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
@@ -73,5 +81,10 @@ public class FileStorageService {
             throw new MyFileNotFoundException("File not found " + fileName, ex);
         }
     }
+
+    public UploadedFile saveUploadedFile(UploadedFile uploadedFile) {
+        return fileRepo.save(uploadedFile);
+    }
+
 
 }

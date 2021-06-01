@@ -4,21 +4,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * File upload code from https://www.callicoder.com/spring-boot-file-upload-download-rest-api-example/
- */
+import javax.persistence.*;
+
 
 @NoArgsConstructor
 @Getter
 @Setter
-public class UploadFileResponse {
+@Entity
+public class UploadedFile {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(nullable = false, updatable = false)
+    private long id;
     private String fileName;
     private String fileDownloadUri;
     private String fileType;
     private long size;
 
-    public UploadFileResponse(String fileName, String fileDownloadUri, String fileType, long size) {
+    public UploadedFile(String fileName, String fileDownloadUri, String fileType, long size) {
         this.fileName = fileName;
         this.fileDownloadUri = fileDownloadUri;
         this.fileType = fileType;

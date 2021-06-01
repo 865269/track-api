@@ -1,7 +1,7 @@
 package com.matthew.track.controllers;
 
 import com.matthew.track.models.Activity;
-import com.matthew.track.models.UploadFileResponse;
+import com.matthew.track.models.UploadedFile;
 import com.matthew.track.services.ActivityService;
 import com.matthew.track.services.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +58,12 @@ public class ActivityController {
     }
 
     @PostMapping("/uploadFile/{id}")
-    public ResponseEntity<UploadFileResponse> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id) {
+    public ResponseEntity<UploadedFile> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("id") Long id) {
 
         String fileName = fileStorageService.storeFile(file);
 
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/downloadFile/")
+                .path("/files/downloadFile/")
                 .path(fileName)
                 .toUriString();
 
@@ -73,9 +73,10 @@ public class ActivityController {
         activity.setImageUrl(fileDownloadUri);
         activity = activityService.saveActivity(activity);
 
-        UploadFileResponse uploadFileResponse = new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
+        UploadedFile uploadedFile = new UploadedFile(fileName, fileDownloadUri, file.getContentType(), file.getSize());
+        uploadedFile = fileStorageService.saveUploadedFile(uploadedFile);
 
-        return new ResponseEntity<>(uploadFileResponse, HttpStatus.OK);
+        return new ResponseEntity<>(uploadedFile, HttpStatus.OK);
     }
 
 }
