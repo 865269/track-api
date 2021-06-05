@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.ServletContext;
+import java.util.Date;
 import java.util.List;
 
 
@@ -40,15 +41,23 @@ public class ActivityController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Activity>> getAllActivies() {
+    public ResponseEntity<List<Activity>> getAllActivities() {
         List<Activity> activities = activityService.getAllActivities();
         return new ResponseEntity<>(activities, HttpStatus.OK);
     }
 
     @PostMapping("/add")
     public ResponseEntity<Activity> addActivity(@RequestBody Activity activity) {
+        activity.setCreated(new Date());
+
         Activity newActivity = activityService.saveActivity(activity);
         return new ResponseEntity<>(newActivity, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Activity> updateActivity(@RequestBody Activity activity) {
+        Activity newActivity = activityService.saveActivity(activity);
+        return new ResponseEntity<>(newActivity, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
