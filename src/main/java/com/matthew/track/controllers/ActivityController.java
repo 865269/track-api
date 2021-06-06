@@ -1,10 +1,12 @@
 package com.matthew.track.controllers;
 
 import com.matthew.track.models.Activity;
+import com.matthew.track.models.Event;
 import com.matthew.track.models.UploadedFile;
 import com.matthew.track.services.ActivityService;
 import com.matthew.track.services.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.ServletContext;
 import java.util.Date;
 import java.util.List;
-
 
 @RestController
 @RequestMapping("/activities")
@@ -87,5 +88,20 @@ public class ActivityController {
 
         return new ResponseEntity<>(uploadedFile, HttpStatus.OK);
     }
+
+    @PostMapping("/{activityId}/event/add")
+    public ResponseEntity<Event> addEvent(@PathVariable("activityId") long activityId, @RequestBody Event event) {
+
+        event.setCreated(new Date());
+
+        Activity activity = activityService.getActivityById(activityId);
+        activity.addEvent(event);
+
+        activityService.saveActivity(activity);
+
+        return new ResponseEntity<>(event, HttpStatus.CREATED);
+    }
+
+
 
 }

@@ -2,12 +2,9 @@ package com.matthew.track.models;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,12 +22,23 @@ public class Activity implements Serializable {
     private static final long serialVersionUID = -7684008074968425893L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private long id;
-    private String title;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
+    private String title;
     private String description;
     private String imageUrl;
+
+    @OneToMany(mappedBy = "activity")
+    private List<Event> events;
+
+    public void addEvent(Event event) {
+        event.setActivity(this);
+        this.events.add(event);
+    }
 
 }
