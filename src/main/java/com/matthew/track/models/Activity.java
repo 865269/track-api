@@ -1,6 +1,7 @@
 package com.matthew.track.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,8 +34,8 @@ public class Activity implements Serializable {
     private String description;
     private String imageUrl;
 
-    @OneToMany(mappedBy = "activity")
-    private List<Event> events;
+    @OneToMany(mappedBy = "activity", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Event> events = new ArrayList<>();
 
     public void addEvent(Event event) {
         event.setActivity(this);
