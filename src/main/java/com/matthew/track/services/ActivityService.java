@@ -24,7 +24,7 @@ public class ActivityService {
     }
 
     public Activity getActivityById(Long id) {
-        return activityRepo.findActivityById(id)
+        return activityRepo.findById(id)
                 .orElseThrow(() -> new ActivityNotFoundException("Activity by id " + id + " was not found"));
     }
 
