@@ -206,8 +206,11 @@ class ActivityControllerTest {
 
         // then
         this.mockMvc.perform(post("/activities/"+ACTIVITY_ID+"/event/add")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
                 .andExpect(status().isCreated())
                 .andReturn();
     }
+
+
 }

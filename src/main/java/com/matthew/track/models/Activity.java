@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,8 +36,14 @@ public class Activity implements Serializable {
     private String description;
     private String imageUrl;
 
-    @OneToMany(mappedBy = "activity", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Getter(AccessLevel.NONE)
+    @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Event> events = new ArrayList<>();
+
+    @JsonIgnore
+    public List<Event> getEvents() {
+        return this.events;
+    }
 
     public void addEvent(Event event) {
         event.setActivity(this);
