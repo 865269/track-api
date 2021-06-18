@@ -38,8 +38,6 @@ class ActivityControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-
-
     @MockBean
     private ActivityService activityService;
 
@@ -154,7 +152,6 @@ class ActivityControllerTest {
     }
 
     @Test
-    @Disabled
     void deleteActivity() throws Exception {
         // given
         long ACTIVITY_ID = 1;

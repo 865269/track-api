@@ -1,12 +1,13 @@
 package com.matthew.track.controllers;
 
+import com.matthew.track.models.dtos.ActivityDTO;
 import com.matthew.track.models.Activity;
 import com.matthew.track.models.Event;
 import com.matthew.track.models.UploadedFile;
 import com.matthew.track.services.ActivityService;
 import com.matthew.track.services.FileStorageService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.ServletContext;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/activities")
@@ -30,35 +33,37 @@ public class ActivityController {
     @Autowired
     ServletContext context;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public ActivityController(ActivityService activityService, FileStorageService fileStorageService) {
         this.activityService = activityService;
         this.fileStorageService = fileStorageService;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Activity> getActivityById(@PathVariable("id") Long id) {
+    public ResponseEntity<ActivityDTO> getActivityById(@PathVariable("id") Long id) {
         Activity activity = activityService.getActivityById(id);
-        return new ResponseEntity<>(activity, HttpStatus.OK);
+        return new ResponseEntity<>(convertToDto(activity), HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Activity>> getAllActivities() {
+    public ResponseEntity<List<ActivityDTO>> getAllActivities() {
         List<Activity> activities = activityService.getAllActivities();
-        return new ResponseEntity<>(activities, HttpStatus.OK);
+        return new ResponseEntity<>(activities.stream().map(this::convertToDto).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Activity> addActivity(@RequestBody Activity activity) {
-        activity.setCreated(new Date());
-
-        Activity newActivity = activityService.saveActivity(activity);
-        return new ResponseEntity<>(newActivity, HttpStatus.CREATED);
+    public ResponseEntity<ActivityDTO> addActivity(@RequestBody ActivityDTO activityDTO) throws ParseException {
+        activityDTO.setCreated(new Date());
+        Activity newActivity = activityService.saveActivity(convertToEntity(activityDTO));
+        return new ResponseEntity<>(convertToDto(newActivity), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Activity> updateActivity(@RequestBody Activity activity) {
-        Activity newActivity = activityService.saveActivity(activity);
-        return new ResponseEntity<>(newActivity, HttpStatus.OK);
+    public ResponseEntity<ActivityDTO> updateActivity(@RequestBody ActivityDTO activityDTO) throws ParseException {
+        Activity updatedActivity = activityService.saveActivity(convertToEntity(activityDTO));
+        return new ResponseEntity<>(convertToDto(updatedActivity), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -102,6 +107,17 @@ public class ActivityController {
         return new ResponseEntity<>(event, HttpStatus.CREATED);
     }
 
+    private ActivityDTO convertToDto(Activity activity) {
+        ActivityDTO activityDTO = modelMapper.map(activity, ActivityDTO.class);
+        activityDTO.setEvents(activity.getEvents());
 
+        return activityDTO;
+    }
+
+    private Activity convertToEntity(ActivityDTO activityDTO) throws ParseException {
+        Activity activity = modelMapper.map(activityDTO, Activity.class);
+
+        return activity;
+    }
 
 }
