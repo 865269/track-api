@@ -56,14 +56,16 @@ public class ActivityController {
     @PostMapping("/add")
     public ResponseEntity<ActivityDTO> addActivity(@RequestBody ActivityDTO activityDTO) throws ParseException {
         activityDTO.setCreated(new Date());
-        Activity newActivity = activityService.saveActivity(convertToEntity(activityDTO));
+        Activity newActivity = convertToEntity(activityDTO);
+        newActivity = activityService.saveActivity(newActivity);
         return new ResponseEntity<>(convertToDto(newActivity), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
     public ResponseEntity<ActivityDTO> updateActivity(@RequestBody ActivityDTO activityDTO) throws ParseException {
-        Activity updatedActivity = activityService.saveActivity(convertToEntity(activityDTO));
-        return new ResponseEntity<>(convertToDto(updatedActivity), HttpStatus.OK);
+        Activity updateActivity = convertToEntity(activityDTO);
+        updateActivity = activityService.saveActivity(updateActivity);
+        return new ResponseEntity<>(convertToDto(updateActivity), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

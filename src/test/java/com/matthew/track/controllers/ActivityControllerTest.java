@@ -7,12 +7,14 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.matthew.track.models.Activity;
 import com.matthew.track.models.Event;
 import com.matthew.track.models.Rating;
+import com.matthew.track.models.dtos.ActivityDTO;
 import com.matthew.track.services.ActivityService;
 import com.matthew.track.services.FileStorageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,10 +22,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,6 +41,9 @@ class ActivityControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @MockBean
     private ActivityService activityService;
@@ -104,45 +111,48 @@ class ActivityControllerTest {
     }
 
     @Test
-    void addActivity() throws Exception {
+    void shouldAddActivity() throws Exception {
 
         // given
-        Activity activity = new Activity();
-        activity.setTitle("Test Title");
-        activity.setDescription("Test Description");
-        activity.setCreated(new Date());
+        ActivityDTO activityDTO = new ActivityDTO();
+        activityDTO.setTitle("Test Title");
+        activityDTO.setDescription("Test Description");
 
-       objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-       ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
+        Activity activityToSave = convertToEntity(activityDTO);
 
-       String requestJson = objectWriter.writeValueAsString(activity);
+        objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
+
+        String requestJson = objectWriter.writeValueAsString(activityDTO);
 
         // when
+        when(activityService.saveActivity(any(Activity.class))).thenReturn(activityToSave);
+
         // then
         this.mockMvc.perform(post("/activities/add")
-                .contentType(MediaType.APPLICATION_JSON).content(requestJson))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
                 .andExpect(status().isCreated())
                 .andReturn();
     }
 
     @Test
-    void updateActivity() throws Exception {
+    void shouldUpdateActivity() throws Exception {
 
         // given
-        long ACTIVITY_ID = 1;
-        Activity activity = new Activity();
-        activity.setTitle("Test Title");
-        activity.setDescription("Test Description");
-        activity.setCreated(new Date());
-        activity.setId(ACTIVITY_ID);
+        ActivityDTO activityDTO = new ActivityDTO();
+        activityDTO.setTitle("Test Title");
+        activityDTO.setDescription("Test Description");
+
+        Activity activityToSave = convertToEntity(activityDTO);
 
         objectMapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
         ObjectWriter objectWriter = objectMapper.writer().withDefaultPrettyPrinter();
 
-        String requestJson = objectWriter.writeValueAsString(activity);
+        String requestJson = objectWriter.writeValueAsString(activityDTO);
 
         // when
-        when(activityService.getActivityById(ACTIVITY_ID)).thenReturn(activity);
+        when(activityService.saveActivity(any(Activity.class))).thenReturn(activityToSave);
 
         // then
         this.mockMvc.perform(put("/activities/update")
@@ -152,7 +162,7 @@ class ActivityControllerTest {
     }
 
     @Test
-    void deleteActivity() throws Exception {
+    void shouldDeleteActivity() throws Exception {
         // given
         long ACTIVITY_ID = 1;
         Activity activity = new Activity();
@@ -176,7 +186,7 @@ class ActivityControllerTest {
     }
 
     @Test
-    void addEvent() throws Exception {
+    void shouldAddEvent() throws Exception {
 
         // given
         long ACTIVITY_ID = 1;
@@ -207,6 +217,19 @@ class ActivityControllerTest {
                 .content(requestJson))
                 .andExpect(status().isCreated())
                 .andReturn();
+    }
+
+    private ActivityDTO convertToDto(Activity activity) {
+        ActivityDTO activityDTO = modelMapper.map(activity, ActivityDTO.class);
+        activityDTO.setEvents(activity.getEvents());
+
+        return activityDTO;
+    }
+
+    private Activity convertToEntity(ActivityDTO activityDTO) throws ParseException {
+        Activity activity = modelMapper.map(activityDTO, Activity.class);
+
+        return activity;
     }
 
 
