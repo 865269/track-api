@@ -8,6 +8,9 @@ import com.matthew.track.services.ActivityService;
 import com.matthew.track.services.FileStorageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,7 @@ import javax.servlet.ServletContext;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
@@ -120,6 +124,21 @@ public class ActivityController {
         Activity activity = modelMapper.map(activityDTO, Activity.class);
 
         return activity;
+    }
+
+    @GetMapping("/page/{page}/{size}")
+    public ResponseEntity<Page<ActivityDTO>> getPageOfActivities(@PathVariable("page") int page, @PathVariable("size") int size) {
+        Pageable currentPage = PageRequest.of(page, size);
+        Page<Activity> activities = activityService.getPageOfActivities(currentPage);
+
+        Page<ActivityDTO> dtoPage = activities.map(new Function<Activity, ActivityDTO>() {
+            @Override
+            public ActivityDTO apply(Activity activity) {
+                return convertToDto(activity);
+            }
+        });
+
+        return new ResponseEntity<>(dtoPage, HttpStatus.OK);
     }
 
 }

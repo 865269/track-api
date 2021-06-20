@@ -7,6 +7,8 @@ import com.matthew.track.models.Activity;
 import com.matthew.track.repos.ActivityRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,5 +34,9 @@ public class ActivityService {
 
     public void deleteActivity(Long id) {
         activityRepo.deleteById(id);
+    }
+
+    public Page<Activity> getPageOfActivities(Pageable pageable) {
+        return activityRepo.findAll(pageable);
     }
 }
