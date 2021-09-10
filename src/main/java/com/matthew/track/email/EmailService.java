@@ -32,6 +32,9 @@ public class EmailService implements EmailSender {
             helper.setTo(to);
             helper.setSubject("Confirm your email");
             helper.setFrom("mattydiggory@gmail.com");
+            mailSender.send(mimeMessage);
+
+            // TODO: store email event in database
 
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);
