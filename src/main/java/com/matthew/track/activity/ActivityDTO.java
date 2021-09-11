@@ -1,6 +1,6 @@
-package com.matthew.track.models.dtos;
+package com.matthew.track.activity;
 
-import com.matthew.track.models.Event;
+import com.matthew.track.event.Event;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

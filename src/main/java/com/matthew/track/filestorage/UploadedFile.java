@@ -1,4 +1,4 @@
-package com.matthew.track.models;
+package com.matthew.track.filestorage;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

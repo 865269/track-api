@@ -1,5 +1,6 @@
-package com.matthew.track.models;
+package com.matthew.track.event;
 
+import com.matthew.track.activity.Activity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,11 +1,8 @@
-package com.matthew.track.controllers;
+package com.matthew.track.activity;
 
-import com.matthew.track.models.dtos.ActivityDTO;
-import com.matthew.track.models.Activity;
-import com.matthew.track.models.Event;
-import com.matthew.track.models.UploadedFile;
-import com.matthew.track.services.ActivityService;
-import com.matthew.track.services.FileStorageService;
+import com.matthew.track.event.Event;
+import com.matthew.track.filestorage.UploadedFile;
+import com.matthew.track.filestorage.FileStorageService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

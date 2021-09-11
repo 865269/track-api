@@ -1,19 +1,17 @@
 package com.matthew.track.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.matthew.track.models.Activity;
-import com.matthew.track.models.Event;
-import com.matthew.track.models.Rating;
-import com.matthew.track.models.dtos.ActivityDTO;
-import com.matthew.track.services.ActivityService;
-import com.matthew.track.services.FileStorageService;
+import com.matthew.track.activity.Activity;
+import com.matthew.track.event.Event;
+import com.matthew.track.event.Rating;
+import com.matthew.track.activity.ActivityDTO;
+import com.matthew.track.activity.ActivityService;
+import com.matthew.track.filestorage.FileStorageService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,7 +24,6 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

@@ -1,5 +1,6 @@
 package com.matthew.track;
 
+import com.matthew.track.filestorage.FileStorageProperties;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

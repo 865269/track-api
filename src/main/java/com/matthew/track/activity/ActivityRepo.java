@@ -1,10 +1,7 @@
-package com.matthew.track.repos;
-
-import java.util.List;
-import java.util.Optional;
+package com.matthew.track.activity;
 
 
-import com.matthew.track.models.Activity;
+import com.matthew.track.activity.Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ActivityRepo extends JpaRepository<Activity, Long> { }

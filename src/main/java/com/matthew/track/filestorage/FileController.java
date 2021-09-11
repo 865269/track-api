@@ -1,7 +1,7 @@
-package com.matthew.track.controllers;
+package com.matthew.track.filestorage;
 
-import com.matthew.track.models.UploadedFile;
-import com.matthew.track.services.FileStorageService;
+import com.matthew.track.filestorage.UploadedFile;
+import com.matthew.track.filestorage.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;

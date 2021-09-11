@@ -1,4 +1,4 @@
-package com.matthew.track.models;
+package com.matthew.track.activity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.matthew.track.event.Event;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

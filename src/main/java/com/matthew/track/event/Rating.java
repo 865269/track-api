@@ -1,4 +1,4 @@
-package com.matthew.track.models;
+package com.matthew.track.event;
 
 public enum Rating {
     POOR(0),

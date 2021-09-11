@@ -1,11 +1,7 @@
-package com.matthew.track.services;
+package com.matthew.track.filestorage;
 
-import com.matthew.track.FileStorageProperties;
 import com.matthew.track.exceptions.FileStorageException;
 import com.matthew.track.exceptions.MyFileNotFoundException;
-import com.matthew.track.models.Activity;
-import com.matthew.track.models.UploadedFile;
-import com.matthew.track.repos.FileRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -13,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;

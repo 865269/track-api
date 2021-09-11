@@ -1,16 +1,14 @@
 package com.matthew.track.services;
 
+import com.matthew.track.activity.ActivityService;
 import com.matthew.track.exceptions.ActivityNotFoundException;
-import com.matthew.track.models.Activity;
-import com.matthew.track.repos.ActivityRepo;
-import org.junit.jupiter.api.AfterEach;
+import com.matthew.track.activity.Activity;
+import com.matthew.track.activity.ActivityRepo;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Date;

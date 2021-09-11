@@ -1,10 +1,10 @@
-package com.matthew.track.services;
+package com.matthew.track.activity;
 
 import java.util.List;
 
 import com.matthew.track.exceptions.ActivityNotFoundException;
-import com.matthew.track.models.Activity;
-import com.matthew.track.repos.ActivityRepo;
+import com.matthew.track.activity.Activity;
+import com.matthew.track.activity.ActivityRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
