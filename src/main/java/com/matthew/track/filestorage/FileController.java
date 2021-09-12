@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/api/v1/files")
 public class FileController {
 
     @Autowired

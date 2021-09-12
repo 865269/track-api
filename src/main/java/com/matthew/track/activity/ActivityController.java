@@ -22,7 +22,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/activities")
+@RequestMapping("/api/v1/activities")
 public class ActivityController {
 
     @Autowired

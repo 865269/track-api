@@ -1,8 +1,9 @@
 package com.matthew.track.security.config;
 
 import com.matthew.track.appuser.AppUserService;
-import com.matthew.track.authentication.CustomerAuthenticationFilter;
-import lombok.AllArgsConstructor;
+import com.matthew.track.filter.CustomAuthenticationFilter;
+import com.matthew.track.filter.CustomAuthorizationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,10 +14,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -25,18 +27,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-            .csrf().disable().cors()
-                .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-            .authorizeRequests()
-               // .antMatchers("/registration/**")
-                .anyRequest()
-                .permitAll()
-                .anyRequest();
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+        customAuthenticationFilter.setFilterProcessesUrl("/api/v1/login");
 
-        http.addFilter(new CustomerAuthenticationFilter(authenticationManagerBean()));
+        http.csrf().disable();
+        http.cors();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        // TODO: setup roles
+        http.authorizeRequests().antMatchers("/api/v1/registration/**", "/api/v1/login/**").permitAll();
+        http.authorizeRequests().anyRequest().authenticated();
+        http.addFilter(customAuthenticationFilter);
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
