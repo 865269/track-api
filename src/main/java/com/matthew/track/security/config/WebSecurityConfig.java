@@ -1,6 +1,6 @@
 package com.matthew.track.security.config;
 
-import com.matthew.track.appuser.AppUserService;
+import com.matthew.track.service.AppUserService;
 import com.matthew.track.filter.CustomAuthenticationFilter;
 import com.matthew.track.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,6 @@
 package com.matthew.track.registration.token;
 
-import com.matthew.track.appuser.AppUser;
-import lombok.AllArgsConstructor;
+import com.matthew.track.model.appuser.AppUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -2,7 +2,7 @@ package com.matthew.track.filter;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.matthew.track.appuser.AppUser;
+import com.matthew.track.model.appuser.AppUser;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

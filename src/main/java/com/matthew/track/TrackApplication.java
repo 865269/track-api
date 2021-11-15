@@ -1,6 +1,6 @@
 package com.matthew.track;
 
-import com.matthew.track.filestorage.FileStorageProperties;
+import com.matthew.track.properties.FileStorageProperties;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +9,7 @@ import java.util.Arrays;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -19,9 +20,7 @@ import org.springframework.web.filter.CorsFilter;
 })
 public class TrackApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TrackApplication.class, args);
-	}
+	public static void main(String[] args) {SpringApplication.run(TrackApplication.class, args);}
 
 	@Bean
 	public CorsFilter corsFilter() {

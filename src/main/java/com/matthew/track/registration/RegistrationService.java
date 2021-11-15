@@ -1,8 +1,8 @@
 package com.matthew.track.registration;
 
-import com.matthew.track.appuser.AppUser;
-import com.matthew.track.appuser.AppUserRole;
-import com.matthew.track.appuser.AppUserService;
+import com.matthew.track.model.appuser.AppUser;
+import com.matthew.track.model.appuser.AppUserRole;
+import com.matthew.track.service.AppUserService;
 import com.matthew.track.email.EmailSender;
 import com.matthew.track.registration.token.ConfirmationToken;
 import com.matthew.track.registration.token.ConfirmationTokenService;
@@ -20,7 +20,6 @@ public class RegistrationService {
     private final EmailValidator emailValidator;
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
-
 
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
